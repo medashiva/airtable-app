@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  server:
+    container_name: backend-app
+    restart: unless-stopped
+    image: backend-image
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    networks:
+      - shared-network
+
+  client:
+    container_name: frontend-app
+    image: frontend-image
+    restart: unless-stopped
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    networks:
+      - shared-network
+
+networks:
+  shared-network:
