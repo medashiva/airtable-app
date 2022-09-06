@@ -2,28 +2,32 @@
 // import './App.css';
 import React, { useEffect, useState } from "react";
 import Dashboard from './pages/dashboard'
-import { getOrdersMetrics } from './api/api'
+
+import LoaderIcon from "react-loader-icon"
+
+import { getOrdersData } from './api/api'
 
 function App() {
   const [ordersData, setOrdersData] = useState()
+  const [loader, setLoader] = useState(false)
+  const getOrders = async () => {
+    try {
+      const ordersInfo = await getOrdersData();
+      setOrdersData(ordersInfo)
+      setLoader(false)
+      console.log(ordersInfo)
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const ordersMetrics = await getOrdersMetrics();
-        setOrdersData(ordersMetrics)
-        console.log(ordersMetrics)
-      } catch (error) {
-        console.log(error);
-        /* Workaround to detect unauthorized 401 which means not logged in */
-        if ((error.message ?? "").indexOf("401") !== false) {
-        }
-      }
-    };
+    setLoader(true)
+    getOrders();
 
-    fetchOrders();
   }, []);
   return (
     <div>
+      {loader && <LoaderIcon color={"blue"} size={100} />}
       <Dashboard ordersdata={ordersData} />
     </div>
   );

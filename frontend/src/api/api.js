@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-    baseURL: "http://127.0.0.1:5000" //process.env.REACT_APP_SERVER_URL,
+    baseURL: "http://127.0.0.1:5000",
 });
 
 API.interceptors.response.use(
@@ -13,7 +13,7 @@ API.interceptors.response.use(
     }
 );
 
-export async function getOrdersMetrics() {
+export async function getOrdersData() {
     const response = await API.get("/orders")
         .then((res) => {
             return res.data;

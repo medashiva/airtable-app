@@ -12,7 +12,6 @@ function Dashboard({ ordersdata }) {
                     <AppBar position="static">
                         <Toolbar variant="dense">
                             <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
-
                             </IconButton>
                             <Typography variant="h6" color="inherit" component="div">
                                 Dashboard
@@ -20,7 +19,7 @@ function Dashboard({ ordersdata }) {
                         </Toolbar>
                     </AppBar>
                     <OrdersCards count={ordersdata.total_orders} title={'Total Orders'} />
-                    <OrdersCards count={ordersdata.revenue} title={'Total Revenue '} />
+                    <OrdersCards count={"£" + ordersdata.revenue} title={'Total Revenue '} />
                     <OrdersCards count={ordersdata.total_inprogress_orders} title={'Total In-Progress Orders'} />
                     <OrdersCards count={ordersdata.total_orders_this_month} title={'Current Month Orders'} />
                     <br></br>
