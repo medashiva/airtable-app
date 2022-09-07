@@ -3,7 +3,9 @@ import json
 from datetime import datetime, timedelta
 import os
 from dotenv import load_dotenv
+
 load_dotenv()
+
 
 class AirOrders:
     """
@@ -11,10 +13,10 @@ class AirOrders:
     """
 
     def __init__(self):
-        
-        self.app_id = os.environ.get('APP_ID')
-        self.app_key = os.environ.get('APP_KEY')
-        self.table_name = os.environ.get('TABLE_NAME')
+
+        self.app_id = os.environ.get("APP_ID")
+        self.app_key = os.environ.get("APP_KEY")
+        self.table_name = os.environ.get("TABLE_NAME")
         self.fields = [
             "order_id",
             "product_name",
@@ -25,16 +27,14 @@ class AirOrders:
         ]
         self.orders = []
 
-
     def get_air_orders(self):
         # fetching all orders from air table
         airtable = Airtable(self.app_id, self.table_name, self.app_key)
         self.orders = airtable.get_all(
             fields=self.fields, sort=["-order_placed"], max_records=None
         )
-        
-        return self.orders
 
+        return self.orders
 
     def orders_count(self):
         # Returns the count of orders
@@ -64,12 +64,13 @@ class AirOrders:
         # current month orders
         if not self.orders:
             self.get_air_orders()
-        day1 = datetime.today().replace(day=1)
+        end = datetime.today().date()
+        start = datetime.today().replace(day=1)
         k = "order_placed"
         current_month_orders = [
             ord
             for ord in self.orders
-            if datetime.strptime(ord["fields"][k], "%Y-%m-%d") >= day1
+            if start <= datetime.strptime(ord["fields"][k], "%Y-%m-%d") <= end
         ]
         return len(current_month_orders)
 
