@@ -14,7 +14,7 @@ function Dashboard({ ordersdata }) {
                             <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
                             </IconButton>
                             <Typography variant="h6" color="inherit" component="div">
-                                Dashboard
+                                Alice's Dashboard
                             </Typography>
                         </Toolbar>
                     </AppBar>

@@ -25,12 +25,10 @@ class AirOrders:
         ]
         self.orders = []
 
+
     def get_air_orders(self):
-        print("hello")
-        print("app_id",self.app_id)
         # fetching all orders from air table
         airtable = Airtable(self.app_id, self.table_name, self.app_key)
-        print(airtable,"airtable")
         self.orders = airtable.get_all(
             fields=self.fields, sort=["-order_placed"], max_records=None
         )
@@ -39,13 +37,13 @@ class AirOrders:
 
 
     def orders_count(self):
-        # counting all orders
+        # Returns the count of orders
         if not self.orders:
             self.get_air_orders()
         return len(self.orders)
 
     def inprogress_orders(self):
-        # count of in-progress orders
+        # Returns count of in-progress orders
         if not self.orders:
             self.get_air_orders()
         k = "order_status"
@@ -56,7 +54,7 @@ class AirOrders:
         return len(inprogress_list)
 
     def orders_revenue(self):
-        # total revenu
+        # Returns total revenu
         if not self.orders:
             self.get_air_orders()
         revenue_total = sum([order["fields"]["price"] for order in self.orders])
@@ -66,12 +64,12 @@ class AirOrders:
         # current month orders
         if not self.orders:
             self.get_air_orders()
-        past = datetime.now() - timedelta(days=30)
+        day1 = datetime.today().replace(day=1)
         k = "order_placed"
         current_month_orders = [
             ord
             for ord in self.orders
-            if datetime.strptime(ord["fields"][k], "%Y-%m-%d") >= past
+            if datetime.strptime(ord["fields"][k], "%Y-%m-%d") >= day1
         ]
         return len(current_month_orders)
 
